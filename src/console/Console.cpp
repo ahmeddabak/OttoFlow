@@ -37,9 +37,19 @@ void begin(Stream& stream) {
   printBanner();
 }
 
+//-- Live sensor streaming ("watch" mode) ---------------------------
+enum WatchBit : uint8_t {
+  W_DIST = 1, W_TOUCH = 2, W_LIGHT = 4, W_MIC = 8, W_TILT = 16, W_ACCEL = 32
+};
+static uint8_t       s_watch        = 0;
+static unsigned long s_lastSampleMs = 0;
+static unsigned long s_lastPrintMs  = 0;
+
 static void printHelp() {
-  s_stream->println(F("Sensors:"));
+  s_stream->println(F("Sensors (one-shot):"));
   s_stream->println(F("  dist touch light mic tilt accel"));
+  s_stream->println(F("Live stream (toggle on/off per sensor):"));
+  s_stream->println(F("  watch dist|touch|light|mic|tilt|accel | watch off"));
   s_stream->println(F("Matrix:"));
   s_stream->println(F("  face <name>   heart happy smile sad angry surprised"));
   s_stream->println(F("                confused tongue ok x question line"));
@@ -82,12 +92,98 @@ static bool legsReady() {
   return false;
 }
 
+// One throttled streaming tick: sample watched sensors, print only
+// when something changed (or every 2 s as an "still alive" line).
+static void watchTick() {
+  if (s_watch == 0) return;
+  unsigned long now = millis();
+  if (now - s_lastSampleMs < 500) return;    // throttle: max 2 lines/s
+  s_lastSampleMs = now;
+
+  static long    lastDist  = -1;
+  static bool    lastTouch = false;
+  static uint8_t lastLight = 255, lastMic = 255;
+  static int     lastPitch = 999, lastRoll = 999;
+  static int     lastAx = 999, lastAy = 999, lastAz = 999;
+
+  long dist = (s_watch & W_DIST) ? Eyes::distanceCm() : 0;
+  bool touch = (s_watch & W_TOUCH) && Touch::isTouched();
+  uint8_t light = (s_watch & W_LIGHT) ? LightSensor::brightnessPercent() : 0;
+  uint8_t mic = (s_watch & W_MIC) ? Ears::loudnessPercent() : 0;
+  int pitch = 0, roll = 0, ax = 0, ay = 0, az = 0;
+  if (s_watch & W_TILT) {
+    pitch = (int)Balance::pitchDegrees();
+    roll  = (int)Balance::rollDegrees();
+  }
+  if (s_watch & W_ACCEL) {
+    float x, y, z;
+    Mpu6050::readAccelerationG(x, y, z);
+    ax = (int)(x * 10); ay = (int)(y * 10); az = (int)(z * 10);  // 0.1 g steps
+  }
+
+  bool changed =
+      ((s_watch & W_DIST)  && labs(dist - lastDist) >= 2) ||
+      ((s_watch & W_TOUCH) && touch != lastTouch) ||
+      ((s_watch & W_LIGHT) && abs((int)light - (int)lastLight) >= 3) ||
+      ((s_watch & W_MIC)   && abs((int)mic - (int)lastMic) >= 3) ||
+      ((s_watch & W_TILT)  && (abs(pitch - lastPitch) >= 2 || abs(roll - lastRoll) >= 2)) ||
+      ((s_watch & W_ACCEL) && (ax != lastAx || ay != lastAy || az != lastAz));
+
+  if (!changed && now - s_lastPrintMs < 2000) return;   // quiet while stable
+  s_lastPrintMs = now;
+  lastDist = dist; lastTouch = touch; lastLight = light; lastMic = mic;
+  lastPitch = pitch; lastRoll = roll; lastAx = ax; lastAy = ay; lastAz = az;
+
+  if (s_watch & W_DIST) {
+    s_stream->print(F("dist "));
+    if (dist >= Eyes::OUT_OF_RANGE_CM) s_stream->print(F("--"));
+    else s_stream->print(dist);
+    s_stream->print(F("cm  "));
+  }
+  if (s_watch & W_TOUCH) s_stream->print(touch ? F("TOUCH  ") : F("touch:no  "));
+  if (s_watch & W_LIGHT) { s_stream->print(F("light ")); s_stream->print(light); s_stream->print(F("%  ")); }
+  if (s_watch & W_MIC)   { s_stream->print(F("mic ")); s_stream->print(mic); s_stream->print(F("%  ")); }
+  if (s_watch & W_TILT) {
+    s_stream->print(F("pitch ")); s_stream->print(pitch);
+    s_stream->print(F(" roll ")); s_stream->print(roll); s_stream->print(F("  "));
+  }
+  if (s_watch & W_ACCEL) {
+    s_stream->print(F("a "));
+    s_stream->print(ax / 10.0f, 1); s_stream->print(' ');
+    s_stream->print(ay / 10.0f, 1); s_stream->print(' ');
+    s_stream->print(az / 10.0f, 1); s_stream->print('g');
+  }
+  s_stream->println();
+}
+
 static void handle(char* line) {
   char* command = strtok(line, " ");
   if (command == nullptr) return;
 
   if (strcmp_P(command, PSTR("help")) == 0) {
     printHelp();
+
+  //-- Live streaming -----------------------------------------------
+  } else if (strcmp_P(command, PSTR("watch")) == 0) {
+    const char* what = strtok(nullptr, " ");
+    uint8_t bit = 0;
+    if      (what == nullptr)                        { s_stream->println(F("watch dist|touch|light|mic|tilt|accel | watch off")); return; }
+    else if (strcmp_P(what, PSTR("off")) == 0)       { s_watch = 0; s_stream->println(F("watch off")); return; }
+    else if (strcmp_P(what, PSTR("dist")) == 0)      bit = W_DIST;
+    else if (strcmp_P(what, PSTR("touch")) == 0)     bit = W_TOUCH;
+    else if (strcmp_P(what, PSTR("light")) == 0)     bit = W_LIGHT;
+    else if (strcmp_P(what, PSTR("mic")) == 0)       bit = W_MIC;
+    else if (strcmp_P(what, PSTR("tilt")) == 0)      bit = W_TILT;
+    else if (strcmp_P(what, PSTR("accel")) == 0)     bit = W_ACCEL;
+    else { s_stream->println(F("unknown sensor")); return; }
+    if ((bit == W_TILT || bit == W_ACCEL) && !Mpu6050::isConnected()) {
+      s_stream->println(F("MPU-6050 not connected/enabled"));
+      return;
+    }
+    s_watch ^= bit;                                  // toggle
+    s_stream->print(F("watch "));
+    s_stream->print(what);
+    s_stream->println((s_watch & bit) ? F(" on") : F(" off"));
 
   //-- Sensors ------------------------------------------------------
   } else if (strcmp_P(command, PSTR("dist")) == 0) {
@@ -235,6 +331,9 @@ static void handle(char* line) {
 
 void poll() {
   if (s_stream == nullptr) return;
+
+  watchTick();                     // live sensor streaming, throttled
+
   while (s_stream->available() > 0) {
     char c = (char)s_stream->read();
     if (c == '\r') continue;
