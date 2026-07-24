@@ -1,18 +1,19 @@
 //================================================================
 // OttoFlow - console/Console.h
-// Interactive serial console: test the robot from the Serial
-// Monitor without reflashing. Type `help` for the command list.
+// Interactive serial TEST console: verify each motor and each
+// sensor from the Serial Monitor without reflashing. Type `help`
+// for the command list.
+//
+// Deliberately NOT a remote control: no gestures, dances or
+// walking here - full control belongs in your program or the
+// Otto DIY app (AppLink). The console tests hardware, one part
+// at a time.
 //
 //   void setup() { OttoFlow::start(); Console::begin(9600); }
 //   void loop()  { Console::poll(); }
 //
 // If a sketch never calls Console::begin(), the linker strips the
 // console entirely - it costs nothing unless used.
-//
-// Flash note (ATmega328): the `gesture` command links all 13
-// OttoDIYLib gestures (~6 KB) and is therefore opt-in. Add
-//   build_flags = -DOTTOFLOW_CONSOLE_GESTURES
-// to enable it; without the flag the console ships without it.
 //================================================================
 #pragma once
 #include <Arduino.h>
