@@ -1,6 +1,6 @@
-﻿# OttoFlow â€” Roadmap
+# OttoFlow -- Roadmap
 
-What's planned, in plain language. No versions, no dates â€” just the work ahead.
+What's planned, in plain language. No versions, no dates -- just the work ahead.
 To drop an item, delete its section; nothing already shipped depends on any of these.
 
 ---
@@ -10,7 +10,7 @@ To drop an item, delete its section; nothing already shipped depends on any of t
 Today every movement call blocks: `Legs::walkForward(2)` only returns when the
 walk is finished, so the robot is blind and deaf while moving.
 
-Planned: movements that run in the background â€”
+Planned: movements that run in the background --
 
 ```cpp
 Legs::startWalkingForward();
@@ -42,7 +42,7 @@ so it comes after it.
 
 ## Bench mode in one call
 
-`OttoFlow::benchMode()` â€” shorthand for the desk-testing setup used while
+`OttoFlow::benchMode()` -- shorthand for the desk-testing setup used while
 developing: all servos detached (`Motion::disable()`), sounds muted
 (`Voice::mute()`), serial console started. Today that's three calls; this makes
 it one, plus a clear indicator on the matrix that the robot is in test mode.
@@ -71,9 +71,9 @@ Stored in flash (PROGMEM), so they cost no RAM.
 
 Every physical Otto needs small trim corrections so it stands straight.
 The API for trims exists (`Legs::setTrimsDegrees()` + `saveTrimsToEeprom()`),
-but tuning values still means edit â†’ flash â†’ look â†’ repeat.
+but tuning values still means edit -> flash -> look -> repeat.
 
-Planned: an interactive session in the serial console â€”
+Planned: an interactive session in the serial console --
 
 ```
 > trim legleft -3     (servo moves immediately, judge by eye)
@@ -84,13 +84,13 @@ Planned: an interactive session in the serial console â€”
 
 ## Example sketches
 
-A numbered `examples/` folder, beginner â†’ advanced:
+A numbered `examples/` folder, beginner -> advanced:
 
-1. **HelloHeart** â€” start the robot, show a heart (the smallest sketch)
-2. **ObstacleAvoidance** â€” roam and react to obstacles
-3. **SerialConsole** â€” bench-test hardware from the Serial Monitor
-4. **HumanoidArms** â€” the arms preset and arm moves
-5. **PowerUser** â€” custom config, module layer, raw-driver escape hatch
+1. **HelloHeart** -- start the robot, show a heart (the smallest sketch)
+2. **ObstacleAvoidance** -- roam and react to obstacles
+3. **SerialConsole** -- bench-test hardware from the Serial Monitor
+4. **HumanoidArms** -- the arms preset and arm moves
+5. **PowerUser** -- custom config, module layer, raw-driver escape hatch
 
 Written once the feature set settles so they never go stale; both the Arduino
 IDE and PlatformIO show them in their example browsers.
@@ -120,7 +120,7 @@ Most kit extras are already shipped (touch, sound sensor, photoresistor,
 Bluetooth + official app protocol, MPU-6050). Still open, each following the
 extension guide in DESIGN.md (a good way to contribute!):
 
-- **RGB LEDs** â€” mood colors
-- **APDS-9960** â€” hand-gesture / color / proximity sensor found in some kits
-- **Tilt-reactive behaviors** â€” use the MPU-6050 to detect falls and get up,
+- **RGB LEDs** -- mood colors
+- **APDS-9960** -- hand-gesture / color / proximity sensor found in some kits
+- **Tilt-reactive behaviors** -- use the MPU-6050 to detect falls and get up,
   or protest when picked up (sensor module exists; the behaviors don't yet)

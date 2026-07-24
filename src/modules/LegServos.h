@@ -1,4 +1,4 @@
-﻿//================================================================
+//================================================================
 // OttoFlow - modules/LegServos.h
 // The four leg/foot servos: locomotion, dance moves, gestures,
 // calibration trims, and a global enable/disable switch.

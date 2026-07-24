@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "OttoFlow",
   "version": "0.1.0",
   "description": "Rapid-development framework for Otto DIY robots: expressive facades (Mouth, Eyes, Legs) over hardware modules, zero-config kit presets, unit-explicit names, full low-level access. Wraps OttoDIYLib.",

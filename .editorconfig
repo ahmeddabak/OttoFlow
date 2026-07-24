@@ -1,0 +1,19 @@
+# EditorConfig - keeps every editor writing these files the same way.
+# https://editorconfig.org  (VS Code needs the EditorConfig extension;
+# most IDEs support it natively.)
+#
+# charset = utf-8 (never utf-8-bom): a BOM breaks the PlatformIO manifest
+# parser and shows up as stray characters in some tools.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# Markdown: two trailing spaces are a hard line break, so keep them.
+[*.md]
+trim_trailing_whitespace = false

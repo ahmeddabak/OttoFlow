@@ -1,4 +1,4 @@
-﻿//================================================================
+//================================================================
 // OttoFlow - facades/Legs.h
 // Expressive layer over modules/LegServos.h with direction-named calls
 // so a sketch never contains a bare 1 / -1. Zero overhead.

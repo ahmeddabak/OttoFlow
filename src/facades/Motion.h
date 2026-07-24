@@ -1,4 +1,4 @@
-﻿//================================================================
+//================================================================
 // OttoFlow - facades/Motion.h
 // The all-movement switch: legs AND arms together. This is the
 // one call for "the robot must not move" - bench testing, safe

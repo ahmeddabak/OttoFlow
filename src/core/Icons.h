@@ -1,4 +1,4 @@
-﻿//================================================================
+//================================================================
 // OttoFlow - core/Icons.h
 // Named icons for the 8x8 LED matrix. These map to the 31 built-in
 // OttoDIYLib mouth shapes; digits 0-9 are shown via

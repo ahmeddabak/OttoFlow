@@ -1,4 +1,4 @@
-﻿#include "Console.h"
+#include "Console.h"
 #include "../core/OttoCore.h"
 #include "../facades/Mouth.h"
 #include "../facades/Eyes.h"
