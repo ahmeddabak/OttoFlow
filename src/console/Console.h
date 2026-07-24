@@ -8,6 +8,11 @@
 //
 // If a sketch never calls Console::begin(), the linker strips the
 // console entirely - it costs nothing unless used.
+//
+// Flash note (ATmega328): the `gesture` command links all 13
+// OttoDIYLib gestures (~6 KB) and is therefore opt-in. Add
+//   build_flags = -DOTTOFLOW_CONSOLE_GESTURES
+// to enable it; without the flag the console ships without it.
 //================================================================
 #pragma once
 #include <Arduino.h>
