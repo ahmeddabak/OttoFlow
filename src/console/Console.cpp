@@ -58,10 +58,12 @@ static void printHelp() {
   s_stream->println(F("  beep | tone <hz> <ms> | mute | unmute"));
   s_stream->println(F("Motors (enable first!):"));
   s_stream->println(F("  legs on|off | motion on|off | home"));
-  s_stream->println(F("  servo ll|lr|fl|fr <0-180>      one leg servo"));
-  s_stream->println(F("  pose <ll> <lr> <fl> <fr> [ms]  all four"));
+  s_stream->println(F("  leg l|r <0-180>                one leg servo"));
+  s_stream->println(F("  foot l|r <0-180>               one foot servo"));
   s_stream->println(F("  arm l|r <0-180>                one arm servo"));
   s_stream->println(F("  arms on|off                    hold / relax arms"));
+  s_stream->println(F("  center                         all leg servos to 90"));
+  s_stream->println(F("  pose <ll> <lr> <fl> <fr> [ms]  smooth 4-servo stance"));
   s_stream->println(F("  trim <ll> <lr> <fl> <fr> | trim save"));
   s_stream->println(F("  version"));
 }
@@ -265,17 +267,27 @@ static void handle(char* line) {
   } else if (strcmp_P(command, PSTR("home")) == 0) {
     if (legsReady()) Legs::home();
 
-  } else if (strcmp_P(command, PSTR("servo")) == 0) {
-    const char* which = strtok(nullptr, " ");
+  } else if (strcmp_P(command, PSTR("leg")) == 0) {
+    const char* side = strtok(nullptr, " ");
     const char* angleArg = strtok(nullptr, " ");
-    if (!which || !angleArg) { s_stream->println(F("servo ll|lr|fl|fr <0-180>")); return; }
+    if (!side || !angleArg) { s_stream->println(F("leg l|r <0-180>")); return; }
     if (!legsReady()) return;
     uint8_t angle = atoi(angleArg);
-    if      (strcmp_P(which, PSTR("ll")) == 0) Legs::positionLegLeftDegrees(angle);
-    else if (strcmp_P(which, PSTR("lr")) == 0) Legs::positionLegRightDegrees(angle);
-    else if (strcmp_P(which, PSTR("fl")) == 0) Legs::positionFootLeftDegrees(angle);
-    else if (strcmp_P(which, PSTR("fr")) == 0) Legs::positionFootRightDegrees(angle);
-    else s_stream->println(F("servo ll|lr|fl|fr <0-180>"));
+    if (side[0] == 'l') Legs::positionLegLeftDegrees(angle);
+    else                Legs::positionLegRightDegrees(angle);
+
+  } else if (strcmp_P(command, PSTR("foot")) == 0) {
+    const char* side = strtok(nullptr, " ");
+    const char* angleArg = strtok(nullptr, " ");
+    if (!side || !angleArg) { s_stream->println(F("foot l|r <0-180>")); return; }
+    if (!legsReady()) return;
+    uint8_t angle = atoi(angleArg);
+    if (side[0] == 'l') Legs::positionFootLeftDegrees(angle);
+    else                Legs::positionFootRightDegrees(angle);
+
+  } else if (strcmp_P(command, PSTR("center")) == 0) {
+    if (!legsReady()) return;
+    Legs::positionAllDegrees(90, 90, 90, 90, 500);   // calibration reference
 
   } else if (strcmp_P(command, PSTR("pose")) == 0) {
     const char* a = strtok(nullptr, " "); const char* b = strtok(nullptr, " ");
