@@ -46,6 +46,8 @@ void drawMouthId(uint8_t mouthId) {
 
 void drawPixel(uint8_t x, uint8_t y, bool on) { drv().setLed(x, y, on ? 1 : 0); }
 
+void drawPattern(unsigned long pattern) { drv().putMouth(pattern, false); }
+
 void scrollText(const char* text, uint8_t scrollSpeedMs) {
   drv().writeText(text, scrollSpeedMs);
 }

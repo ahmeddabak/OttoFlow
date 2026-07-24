@@ -13,9 +13,13 @@ propose changes via issues before breaking them.
 ## Architecture: three layers
 
 ```
-┌─ Facades   Face, Eyes, Voice, Legs, Arms, Gestures     (src/facades/)
+┌─ Facades   Face, Eyes, Voice, Legs, Arms, Gestures,    (src/facades/)
+│            Motion, Touch, Ears, Balance
 │            Expressive sugar. Inline, zero overhead.
-├─ Modules   Matrix, Ultrasonic, Buzzer, LegServos, ArmServos (src/modules/)
+├─ Modules   Matrix, Ultrasonic, Buzzer, Melody,         (src/modules/)
+│            LegServos, ArmServos, TouchSensor,
+│            SoundSensor, LightSensor, Bluetooth,
+│            Mpu6050, AppLink
 │            Hardware-truth names. All real logic lives here.
 └─ Driver    OttoDIYLib                                  (dependency)
              Reached only by module .cpp files — and by users
@@ -112,11 +116,13 @@ Add a new capability as a module + optional facade:
 A module that follows the naming rules and the guard pattern
 (disabled ⇒ silent no-op) will feel native next to the built-ins.
 
-## Hardware scope (v1)
+## Hardware scope
 
-Arduino Nano (ATmega328), classic Otto biped kit: 4 leg/foot servos, HC-SR04,
-MAX7219 8x8 matrix, buzzer — plus optional 2 arm servos (Humanoid build,
-config-enabled). Wider hardware is roadmap territory.
+Arduino Nano (ATmega328), Otto biped/Humanoid kits: 4 leg/foot servos, HC-SR04,
+MAX7219 8x8 matrix, buzzer — plus the optional kit hardware, each config-enabled
+or passively available: 2 arm servos, touch sensor, sound sensor (microphone),
+photoresistor, Bluetooth serial module (incl. the official app protocol), and
+the MPU-6050 6-axis motion sensor. Other boards (ESP32) are roadmap territory.
 
 ## License
 

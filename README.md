@@ -109,12 +109,17 @@ Voice::mute();      // no sounds
 
 - **`Face`** — `show(Icon::…)`, `showDigit(7)`, `scrollText("HI")`, `setBrightness(8)`, `clear()`
 - **`Eyes`** — `distanceCm()`, `closerThanCm(15)`, `fartherThanCm(50)`
-- **`Voice`** — `play(Sound::Happy)`, `playToneHz(440, 200)`, `mute()` / `unmute()`
+- **`Voice`** — `play(Sound::Happy)`, `playToneHz(440, 200)`, `playHappyBirthday()`, `mute()` / `unmute()`
 - **`Legs`** — `walkForward(2)`, `turnLeft(3)`, `moonwalkLeft()`, `home()`, `enable()` / `disable()`, trims
 - **`Motion`** — `disable()` / `enable()` — ALL servos (legs + arms) in one call
 - **`Arms`** — `raiseBoth()`, `waveRight()`, `relax()` *(humanoid builds)*
 - **`Gestures`** — `play(Gesture::Victory)` — movement + face + sound in one call
-- **Modules** — `Matrix`, `Ultrasonic`, `Buzzer`, `LegServos`, `ArmServos` for full control
+- **`Touch`** — `isTouched()`, `wasTapped()` (debounced, works with toggle-mode sensors)
+- **`Ears`** — `loudnessPercent()`, `hearsSoundLouderThanPercent(60)` *(microphone)*
+- **`Balance`** — `pitchDegrees()`, `isUpsideDown()`, `isShakenHarderThanG(0.6)` *(MPU-6050)*
+- **`AppLink`** — control Otto from the official Otto DIY phone app over Bluetooth
+- **Modules** — `Matrix`, `Ultrasonic`, `Buzzer`, `Melody`, `LegServos`, `ArmServos`,
+  `TouchSensor`, `SoundSensor`, `LightSensor`, `Bluetooth`, `Mpu6050` for full control
 - **Driver** — `#include <OttoFlowDriver.h>` → `OttoFlow::driver()` is the raw OttoDIYLib object
 
 Every name states its meaning and unit: `distanceCm()`, not `dist()`; `walkForward(2)`, not `walk(2,1000,1)`.

@@ -55,13 +55,47 @@ struct BuzzerConfig {
   bool    helloOnStart = true;   // chirp once when OttoFlow::start() finishes
 };
 
+struct TouchConfig {
+  uint8_t pin        = A0;       // TTP223 touch sensor (or push button) signal pin
+  bool    toggleMode = false;    // false: output HIGH only while touched (default)
+                                 // true: output flips on every touch (some kits
+                                 //       ship the sensor soldered this way)
+};
+
+struct SoundSensorConfig {
+  uint8_t pin = A6;              // analog microphone/sound sensor output
+};
+
+struct LightSensorConfig {
+  uint8_t pin = A7;              // photoresistor (LDR) analog output
+                                 // (official single-sensor examples use A0 -
+                                 //  change this if you wired it there)
+};
+
+struct BluetoothConfig {
+  bool     enabled = false;      // needs the module wired before enabling
+  uint8_t  rxPin   = 11;         // board receives here <- module TXD
+  uint8_t  txPin   = 12;         // board sends here    -> module RXD
+  uint16_t baud    = 9600;       // standard for HC-05/06 and BLE serial modules
+};
+
+struct Mpu6050Config {
+  bool    enabled    = false;    // 6-axis accel/gyro on I2C (Nano: SDA=A4, SCL=A5)
+  uint8_t i2cAddress = 0x68;     // 0x69 when the AD0 pin is pulled high
+};
+
 //-- The whole robot ------------------------------------------------
 struct OttoConfig {
-  LegServoPins     legs;
-  ArmsConfig       arms;
-  MatrixConfig     matrix;
-  UltrasonicConfig ultrasonic;
-  BuzzerConfig     buzzer;
+  LegServoPins      legs;
+  ArmsConfig        arms;
+  MatrixConfig      matrix;
+  UltrasonicConfig  ultrasonic;
+  BuzzerConfig      buzzer;
+  TouchConfig       touch;
+  SoundSensorConfig soundSensor;
+  LightSensorConfig lightSensor;
+  BluetoothConfig   bluetooth;
+  Mpu6050Config     mpu6050;
   bool loadTrimsFromEeprom = true;  // servo calibration saved by Legs::saveTrimsToEeprom()
 
   OttoConfig() = default;

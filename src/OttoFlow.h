@@ -30,8 +30,15 @@
 #include "modules/Matrix.h"
 #include "modules/Ultrasonic.h"
 #include "modules/Buzzer.h"
+#include "modules/Melody.h"
 #include "modules/LegServos.h"
 #include "modules/ArmServos.h"
+#include "modules/TouchSensor.h"
+#include "modules/SoundSensor.h"
+#include "modules/LightSensor.h"
+#include "modules/Bluetooth.h"
+#include "modules/Mpu6050.h"
+#include "modules/AppLink.h"
 
 // Facades - expressive API (level 1)
 #include "facades/Face.h"
@@ -41,6 +48,9 @@
 #include "facades/Arms.h"
 #include "facades/Gestures.h"
 #include "facades/Motion.h"
+#include "facades/Touch.h"
+#include "facades/Ears.h"
+#include "facades/Balance.h"
 
 // Serial console (costs nothing unless Console::begin() is called)
 #include "console/Console.h"

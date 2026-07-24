@@ -12,6 +12,7 @@ namespace Matrix {
   void drawDigit(uint8_t digit);            // 0..9
   void drawMouthId(uint8_t mouthId);        // raw OttoDIYLib mouth index 0..30
   void drawPixel(uint8_t x, uint8_t y, bool on);
+  void drawPattern(unsigned long pattern);  // raw 30-bit mouth pattern (6x5 grid)
   void scrollText(const char* text, uint8_t scrollSpeedMs = 50);
   void setBrightness(uint8_t level);        // 0 (dim) .. 15 (bright)
   void clear();

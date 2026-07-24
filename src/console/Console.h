@@ -13,7 +13,9 @@
 #include <Arduino.h>
 
 namespace Console {
-  void begin(unsigned long baud = 9600);
+  void begin(unsigned long baud = 9600);   // over USB Serial
+  void begin(Stream& stream);              // over any stream, e.g.
+                                           // Console::begin(Bluetooth::stream())
 
   // Call every loop() iteration; handles one pending command.
   void poll();

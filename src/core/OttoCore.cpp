@@ -1,6 +1,8 @@
 #include "OttoCore.h"
 #include "Internal.h"
 #include "../modules/ArmServos.h"
+#include "../modules/Bluetooth.h"
+#include "../modules/Mpu6050.h"
 #include <Otto.h>
 
 static ::Otto     s_driver;   // the one OttoDIYLib instance
@@ -34,10 +36,17 @@ void start(const OttoConfig& config) {
   pinMode(s_config.ultrasonic.triggerPin, OUTPUT);
   pinMode(s_config.ultrasonic.echoPin, INPUT);
 
+  // Touch sensor (plain digital input; analog sensors need no setup)
+  pinMode(s_config.touch.pin, INPUT);
+
   // Arm servos (only if this build has them enabled)
   if (s_config.arms.enabled) {
     ArmServos::attach();
   }
+
+  // Optional modules (only if this build has them enabled)
+  if (s_config.bluetooth.enabled) Bluetooth::begin();
+  if (s_config.mpu6050.enabled)   Mpu6050::begin();
 
   s_started = true;
 

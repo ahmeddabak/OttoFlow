@@ -114,12 +114,13 @@ Opens the door to web-based remote control later.
 
 ---
 
-## Add-on sensor modules
+## More add-on modules
 
-Modules for the common Otto kit extras, each following the extension guide in
-DESIGN.md (a good way to contribute!):
+Most kit extras are already shipped (touch, sound sensor, photoresistor,
+Bluetooth + official app protocol, MPU-6050). Still open, each following the
+extension guide in DESIGN.md (a good way to contribute!):
 
-- **Touch sensor** — react to taps
-- **Sound sensor** — react to claps
-- **Bluetooth serial** — drive the existing console over Bluetooth from a phone
 - **RGB LEDs** — mood colors
+- **APDS-9960** — hand-gesture / color / proximity sensor found in some kits
+- **Tilt-reactive behaviors** — use the MPU-6050 to detect falls and get up,
+  or protest when picked up (sensor module exists; the behaviors don't yet)
