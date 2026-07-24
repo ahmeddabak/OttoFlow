@@ -1,6 +1,6 @@
 ﻿//================================================================
 // OttoFlow - facades/Gestures.h
-// Whole-body gestures: movement + face + sound in one call.
+// Whole-body gestures: movement + mouth + sound in one call.
 // Note: gestures move the legs, so they respect Legs::disable().
 //================================================================
 #pragma once

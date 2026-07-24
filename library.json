@@ -1,7 +1,7 @@
-{
+﻿{
   "name": "OttoFlow",
   "version": "0.1.0",
-  "description": "Rapid-development framework for Otto DIY robots: expressive facades (Face, Eyes, Legs) over hardware modules, zero-config kit presets, unit-explicit names, full low-level access. Wraps OttoDIYLib.",
+  "description": "Rapid-development framework for Otto DIY robots: expressive facades (Mouth, Eyes, Legs) over hardware modules, zero-config kit presets, unit-explicit names, full low-level access. Wraps OttoDIYLib.",
   "keywords": ["otto", "ottodiy", "robot", "biped", "humanoid", "framework", "servo", "hc-sr04", "max7219"],
   "license": "GPL-3.0-only",
   "repository": {

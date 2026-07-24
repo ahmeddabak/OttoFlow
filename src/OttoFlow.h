@@ -5,16 +5,16 @@
 //
 //   void setup() {
 //     OttoFlow::start();          // classic Otto biped kit
-//     Face::show(Icon::Heart);
+//     Mouth::show(Icon::Heart);
 //   }
 //
 //   void loop() {
-//     if (Eyes::closerThanCm(15)) Face::show(Icon::Surprised);
-//     else                        Face::show(Icon::Happy);
+//     if (Eyes::closerThanCm(15)) Mouth::show(Icon::Surprised);
+//     else                        Mouth::show(Icon::Happy);
 //   }
 //
 // Layers (see DESIGN.md):
-//   Facades  - Face, Eyes, Voice, Legs, Arms, Gestures (sugar)
+//   Facades  - Mouth, Eyes, Voice, Legs, Arms, Gestures (sugar)
 //   Modules  - Matrix, Ultrasonic, Buzzer, LegServos, ArmServos (full control)
 //   Driver   - OttoDIYLib, reachable via #include <OttoFlowDriver.h>
 //================================================================
@@ -41,7 +41,7 @@
 #include "modules/AppLink.h"
 
 // Facades - expressive API (level 1)
-#include "facades/Face.h"
+#include "facades/Mouth.h"
 #include "facades/Eyes.h"
 #include "facades/Voice.h"
 #include "facades/Legs.h"

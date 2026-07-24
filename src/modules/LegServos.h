@@ -1,4 +1,4 @@
-//================================================================
+﻿//================================================================
 // OttoFlow - modules/LegServos.h
 // The four leg/foot servos: locomotion, dance moves, gestures,
 // calibration trims, and a global enable/disable switch.
@@ -57,7 +57,7 @@ namespace LegServos {
                           uint8_t footLeft, uint8_t footRight,
                           int durationMs = 200);
 
-  //-- Whole-body gestures (movement + face + sound combined)
+  //-- Whole-body gestures (movement + mouth + sound combined)
   void playGesture(Gesture gesture);
 
   //-- Servo calibration

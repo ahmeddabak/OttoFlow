@@ -1,6 +1,6 @@
-#include "Console.h"
+﻿#include "Console.h"
 #include "../core/OttoCore.h"
-#include "../facades/Face.h"
+#include "../facades/Mouth.h"
 #include "../facades/Eyes.h"
 #include "../facades/Voice.h"
 #include "../facades/Legs.h"
@@ -51,7 +51,7 @@ static void printHelp() {
   s_stream->println(F("Live stream (toggle on/off per sensor):"));
   s_stream->println(F("  watch dist|touch|light|mic|tilt|accel | watch off"));
   s_stream->println(F("Matrix:"));
-  s_stream->println(F("  face <name>   heart happy smile sad angry surprised"));
+  s_stream->println(F("  mouth <name>   heart happy smile sad angry surprised"));
   s_stream->println(F("                confused tongue ok x question line"));
   s_stream->println(F("  digit <0-9> | text <msg> | bright <0-15> | clear"));
   s_stream->println(F("Buzzer:"));
@@ -68,7 +68,7 @@ static void printHelp() {
   s_stream->println(F("  version"));
 }
 
-static bool faceByName(const char* name) {
+static bool mouthByName(const char* name) {
   Icon icon;
   if      (strcmp_P(name, PSTR("heart")) == 0)     icon = Icon::Heart;
   else if (strcmp_P(name, PSTR("happy")) == 0)     icon = Icon::Happy;
@@ -83,7 +83,7 @@ static bool faceByName(const char* name) {
   else if (strcmp_P(name, PSTR("question")) == 0)  icon = Icon::Question;
   else if (strcmp_P(name, PSTR("line")) == 0)      icon = Icon::Line;
   else return false;
-  Face::show(icon);
+  Mouth::show(icon);
   return true;
 }
 
@@ -217,24 +217,24 @@ static void handle(char* line) {
     s_stream->println(F(" g"));
 
   //-- Matrix -------------------------------------------------------
-  } else if (strcmp_P(command, PSTR("face")) == 0) {
+  } else if (strcmp_P(command, PSTR("mouth")) == 0) {
     const char* name = strtok(nullptr, " ");
-    if (name == nullptr || !faceByName(name)) s_stream->println(F("unknown face"));
+    if (name == nullptr || !mouthByName(name)) s_stream->println(F("unknown mouth"));
 
   } else if (strcmp_P(command, PSTR("digit")) == 0) {
     const char* arg = strtok(nullptr, " ");
-    if (arg) Face::showDigit(atoi(arg));
+    if (arg) Mouth::showDigit(atoi(arg));
 
   } else if (strcmp_P(command, PSTR("text")) == 0) {
     char* message = strtok(nullptr, "");
-    if (message) Face::scrollText(message);
+    if (message) Mouth::scrollText(message);
 
   } else if (strcmp_P(command, PSTR("bright")) == 0) {
     const char* arg = strtok(nullptr, " ");
-    if (arg) Face::setBrightness(atoi(arg));
+    if (arg) Mouth::setBrightness(atoi(arg));
 
   } else if (strcmp_P(command, PSTR("clear")) == 0) {
-    Face::clear();
+    Mouth::clear();
 
   //-- Buzzer -------------------------------------------------------
   } else if (strcmp_P(command, PSTR("beep")) == 0) {

@@ -1,6 +1,6 @@
-//================================================================
+﻿//================================================================
 // OttoFlow - core/Gestures.h
-// Named whole-body gestures (movement + face + sound combined).
+// Named whole-body gestures (movement + mouth + sound combined).
 // These map to the built-in OttoDIYLib gestures (Otto* constants).
 //================================================================
 #pragma once
