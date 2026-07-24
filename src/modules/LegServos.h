@@ -44,6 +44,19 @@ namespace LegServos {
   void crusaito(float cycles, int periodMs, int amplitude, int dir);
   void flap(float cycles, int periodMs, int amplitude, int dir);
 
+  //-- Direct single-servo control (angles 0..180, 90 = center).
+  //-- Instant move; respects the disable() guard like everything else.
+  void positionLegLeftDegrees(uint8_t angle);
+  void positionLegRightDegrees(uint8_t angle);
+  void positionFootLeftDegrees(uint8_t angle);
+  void positionFootRightDegrees(uint8_t angle);
+
+  //-- Move all four servos together, smoothly interpolated over
+  //-- durationMs (like a keyframe).
+  void positionAllDegrees(uint8_t legLeft, uint8_t legRight,
+                          uint8_t footLeft, uint8_t footRight,
+                          int durationMs = 200);
+
   //-- Whole-body gestures (movement + face + sound combined)
   void playGesture(Gesture gesture);
 

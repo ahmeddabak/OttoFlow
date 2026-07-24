@@ -45,6 +45,20 @@ void moonwalk(float cycles, int periodMs, int amplitude, int dir) { GUARDED(moon
 void crusaito(float cycles, int periodMs, int amplitude, int dir) { GUARDED(crusaito(cycles, periodMs, amplitude, dir)); }
 void flap(float cycles, int periodMs, int amplitude, int dir)     { GUARDED(flapping(cycles, periodMs, amplitude, dir)); }
 
+// OttoDIYLib servo indices: 0 = leg left, 1 = leg right,
+//                           2 = foot left, 3 = foot right
+void positionLegLeftDegrees(uint8_t angle)   { GUARDED(_moveSingle(angle, 0)); }
+void positionLegRightDegrees(uint8_t angle)  { GUARDED(_moveSingle(angle, 1)); }
+void positionFootLeftDegrees(uint8_t angle)  { GUARDED(_moveSingle(angle, 2)); }
+void positionFootRightDegrees(uint8_t angle) { GUARDED(_moveSingle(angle, 3)); }
+
+void positionAllDegrees(uint8_t legLeft, uint8_t legRight,
+                        uint8_t footLeft, uint8_t footRight, int durationMs) {
+  if (!s_enabled) return;
+  int targets[4] = {legLeft, legRight, footLeft, footRight};
+  drv()._moveServos(durationMs, targets);
+}
+
 // Map the framework's Gesture enum to OttoDIYLib gesture ids.
 static int gestureIdFor(Gesture gesture) {
   switch (gesture) {

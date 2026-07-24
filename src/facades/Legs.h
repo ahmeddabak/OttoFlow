@@ -41,6 +41,17 @@ namespace Legs {
   inline void flapForward(float cycles = 1, int periodMs = 1000, int amplitude = 20)   { LegServos::flap(cycles, periodMs, amplitude, 1); }
   inline void flapBackward(float cycles = 1, int periodMs = 1000, int amplitude = 20)  { LegServos::flap(cycles, periodMs, amplitude, -1); }
 
+  //-- Direct single-servo control (angles 0..180, 90 = center)
+  inline void positionLegLeftDegrees(uint8_t angle)   { LegServos::positionLegLeftDegrees(angle); }
+  inline void positionLegRightDegrees(uint8_t angle)  { LegServos::positionLegRightDegrees(angle); }
+  inline void positionFootLeftDegrees(uint8_t angle)  { LegServos::positionFootLeftDegrees(angle); }
+  inline void positionFootRightDegrees(uint8_t angle) { LegServos::positionFootRightDegrees(angle); }
+  inline void positionAllDegrees(uint8_t legLeft, uint8_t legRight,
+                                 uint8_t footLeft, uint8_t footRight,
+                                 int durationMs = 200) {
+    LegServos::positionAllDegrees(legLeft, legRight, footLeft, footRight, durationMs);
+  }
+
   //-- Calibration
   inline void setTrimsDegrees(int legLeft, int legRight, int footLeft, int footRight) {
     LegServos::setTrimsDegrees(legLeft, legRight, footLeft, footRight);
