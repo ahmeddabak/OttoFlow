@@ -1,0 +1,5 @@
+# PlatformIO / build artifacts (when developed inside a host project)
+.pio/
+# IDE
+.idea/
+.vscode/

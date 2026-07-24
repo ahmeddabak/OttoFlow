@@ -1,0 +1,54 @@
+#include "ArmServos.h"
+#include "../core/Internal.h"
+#include <Servo.h>
+
+using ottoflow_internal::config;
+
+namespace ArmServos {
+
+static Servo s_left;
+static Servo s_right;
+static bool  s_attached = false;
+
+void attach() {
+  if (!config().arms.enabled || s_attached) return;
+  s_left.attach(config().arms.leftPin);
+  s_right.attach(config().arms.rightPin);
+  s_attached = true;
+}
+
+void detach() {
+  if (!s_attached) return;
+  s_left.detach();
+  s_right.detach();
+  s_attached = false;
+}
+
+bool isAttached() { return s_attached; }
+
+void positionLeftDegrees(uint8_t angle) {
+  if (s_attached) s_left.write(angle > 180 ? 180 : angle);
+}
+
+void positionRightDegrees(uint8_t angle) {
+  if (s_attached) s_right.write(angle > 180 ? 180 : angle);
+}
+
+void positionBothDegrees(uint8_t angle) {
+  positionLeftDegrees(angle);
+  positionRightDegrees(angle);
+}
+
+static void waveWith(Servo& servo, uint8_t times) {
+  if (!s_attached) return;
+  for (uint8_t i = 0; i < times; i++) {
+    servo.write(160); delay(300);
+    servo.write(120); delay(300);
+  }
+  servo.write(20);   // back down
+}
+
+void waveRight(uint8_t times) { waveWith(s_right, times); }
+void waveLeft(uint8_t times)  { waveWith(s_left, times); }
+
+}  // namespace ArmServos
