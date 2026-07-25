@@ -144,8 +144,8 @@ part of the robot, plus configuration, calibration, and troubleshooting:
 - [Bench Testing](https://github.com/ahmeddabak/OttoFlow/wiki/Bench-Testing), [Serial Console](https://github.com/ahmeddabak/OttoFlow/wiki/Serial-Console), [Calibration](https://github.com/ahmeddabak/OttoFlow/wiki/Calibration)
 - [API Reference](https://github.com/ahmeddabak/OttoFlow/wiki/API-Reference) -- every public function on one page
 
-Bundled `examples/` sketches are on the [ROADMAP](ROADMAP.md); until then the wiki's
-Examples page has the same sketches, ready to paste.
+The library ships no `examples/` folder -- the wiki's Examples page carries the
+sketches instead, ready to paste.
 
 ## Project documents
 

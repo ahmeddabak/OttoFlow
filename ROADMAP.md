@@ -111,23 +111,6 @@ Should cover the arms too, once they have trims of their own.
 
 ---
 
-## Example sketches
-
-A numbered `examples/` folder, beginner -> advanced:
-
-1. **HelloHeart** -- start the robot, show a heart (the smallest sketch)
-2. **ObstacleAvoidance** -- roam and react to obstacles
-3. **SerialConsole** -- bench-test hardware from the Serial Monitor
-4. **HumanoidArms** -- the arms preset and arm moves
-5. **PowerUser** -- custom config, module layer, raw-driver escape hatch
-
-The [wiki's Examples page](https://github.com/ahmeddabak/OttoFlow/wiki/Examples)
-already carries sketches of this kind, ready to paste. What is left is bundling
-them into the library so the Arduino IDE and PlatformIO list them in their example
-browsers -- worth doing once the feature set settles, so they never go stale.
-
----
-
 ## More add-on modules
 
 Most kit extras are already shipped (touch, sound sensor, photoresistor,

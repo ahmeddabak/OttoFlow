@@ -140,7 +140,7 @@ Add a new capability as a module + optional facade:
 2. If a friendlier vocabulary helps, add an inline facade in `src/facades/`.
 3. Add config (pins, enable flag) to `OttoConfig` with kit-accurate defaults,
    and wire initialization into `OttoFlow::start()`.
-4. Ship an example sketch under `examples/` (folder planned -- see ROADMAP.md).
+4. Add a sketch to the wiki's Examples page so people can see it work.
 5. Document it in the wiki -- see below.
 
 A module that follows the naming rules and the guard pattern
