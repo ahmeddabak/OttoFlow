@@ -90,9 +90,13 @@ void loop()  { Console::poll(); }
 > dist
 23 cm
 > mouth heart
-> walk 2 f
-> legs off
+> legs on
+> center
+> arms up
+> watch mic
 ```
+
+`help` lists every command.
 
 ## Bench testing
 
@@ -110,12 +114,13 @@ Voice::mute();      // no sounds
 - **`Mouth`** -- `show(Icon::...)`, `showDigit(7)`, `scrollText("HI")`, `setBrightness(8)`, `clear()`
 - **`Eyes`** -- `distanceCm()`, `closerThanCm(15)`, `fartherThanCm(50)`
 - **`Voice`** -- `play(Sound::Happy)`, `playToneHz(440, 200)`, `playHappyBirthday()`, `mute()` / `unmute()`
-- **`Legs`** -- `walkForward(2)`, `turnLeft(3)`, `moonwalkLeft()`, `home()`, `enable()` / `disable()`, trims
+- **`Legs`** -- `walkForward(2)`, `turnLeft(3)`, `moonwalkLeft()`, `center()`, `enable()` / `disable()`, trims
 - **`Motion`** -- `disable()` / `enable()` -- ALL servos (legs + arms) in one call
-- **`Arms`** -- `raiseBoth()`, `waveRight()`, `relax()` *(humanoid builds)*
+- **`Arms`** -- `center()`, `up()`, `down()`, `raiseBoth()`, `waveRight()`, `relax()` *(humanoid builds)*
 - **`Gestures`** -- `play(Gesture::Victory)` -- movement + mouth + sound in one call
 - **`Touch`** -- `isTouched()`, `wasTapped()` (debounced, works with toggle-mode sensors)
 - **`Ears`** -- `loudnessPercent()`, `hearsSoundLouderThanPercent(60)` *(microphone)*
+- **`LightSensor`** -- `brightnessPercent()`, `isDarkerThanPercent(20)` *(photoresistor)*
 - **`Balance`** -- `pitchDegrees()`, `isUpsideDown()`, `isShakenHarderThanG(0.6)` *(MPU-6050)*
 - **`AppLink`** -- control Otto from the official Otto DIY phone app over Bluetooth
 - **Modules** -- `Matrix`, `Ultrasonic`, `Buzzer`, `Melody`, `LegServos`, `ArmServos`,
@@ -124,9 +129,23 @@ Voice::mute();      // no sounds
 
 Every name states its meaning and unit: `distanceCm()`, not `dist()`; `walkForward(2)`, not `walk(2,1000,1)`.
 
-## Examples
+`home()` is an alias for `center()` on both `Legs` and `Arms`. Both-arm calls mirror the
+right servo (`up()` is left 180 / right 0), because the two arm servos face opposite ways.
 
-Coming once the feature set settles -- see [ROADMAP.md](ROADMAP.md).
+## Documentation
+
+The **[wiki](https://github.com/ahmeddabak/OttoFlow/wiki)** is the full manual -- a page per
+part of the robot, plus configuration, calibration, and troubleshooting:
+
+- [Installation](https://github.com/ahmeddabak/OttoFlow/wiki/Installation) and [Configuration](https://github.com/ahmeddabak/OttoFlow/wiki/Configuration) -- presets, pins, every setting
+- [Examples](https://github.com/ahmeddabak/OttoFlow/wiki/Examples) -- complete, ready-to-flash sketches
+- [Mouth](https://github.com/ahmeddabak/OttoFlow/wiki/Mouth), [Voice](https://github.com/ahmeddabak/OttoFlow/wiki/Voice), [Movement](https://github.com/ahmeddabak/OttoFlow/wiki/Movement), [Arms](https://github.com/ahmeddabak/OttoFlow/wiki/Arms), [Gestures](https://github.com/ahmeddabak/OttoFlow/wiki/Gestures), [Motion](https://github.com/ahmeddabak/OttoFlow/wiki/Motion)
+- [Eyes](https://github.com/ahmeddabak/OttoFlow/wiki/Eyes), [Ears](https://github.com/ahmeddabak/OttoFlow/wiki/Ears), [Touch](https://github.com/ahmeddabak/OttoFlow/wiki/Touch), [Light](https://github.com/ahmeddabak/OttoFlow/wiki/Light), [Balance](https://github.com/ahmeddabak/OttoFlow/wiki/Balance)
+- [Bench Testing](https://github.com/ahmeddabak/OttoFlow/wiki/Bench-Testing), [Serial Console](https://github.com/ahmeddabak/OttoFlow/wiki/Serial-Console), [Calibration](https://github.com/ahmeddabak/OttoFlow/wiki/Calibration)
+- [API Reference](https://github.com/ahmeddabak/OttoFlow/wiki/API-Reference) -- every public function on one page
+
+Bundled `examples/` sketches are on the [ROADMAP](ROADMAP.md); until then the wiki's
+Examples page has the same sketches, ready to paste.
 
 ## Project documents
 
