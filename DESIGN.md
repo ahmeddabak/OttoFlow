@@ -59,6 +59,30 @@ inventing a prettier word.
   (symmetric with `ArmServos`), not `Gait` -- a beginner should never need a
   robotics glossary to guess what a module controls. Clarity beats the
   technically fancier term.
+- **Siblings stay symmetric**: if `Legs` has `center()`, `Arms` has `center()`,
+  and both mean the same thing. Learning one facade should let you guess the next.
+- **Poses are named for the pose**: `center()` says where the servos end up.
+  `home()` is kept as a documented alias of it, because both words are equally
+  natural for the same stance. An alias is only ever a **synonym** -- never two
+  names whose behaviour differs.
+
+## Left and right are mirrored, not identical
+
+The two arm servos are mounted facing opposite ways, so the same physical pose
+needs opposite angles. Every **both-arm** call therefore takes the *left* servo's
+angle and writes `180 - angle` to the right: `Arms::up()` is left 180 / right 0,
+`raiseBoth(120)` is left 120 / right 60. `waveRight()` is mirrored against
+`waveLeft()` the same way, so the two greetings look identical on the robot.
+
+**Single-servo** calls -- `Arms::raiseLeft()`, `ArmServos::positionRightDegrees()`,
+the console's `arm l|r <angle>` -- stay raw, because calibration and bench testing
+have to address one servo in its own terms. The rule: *a call that names one servo
+speaks that servo's angles; a call that names both speaks in poses.*
+
+The mirroring lives in `ArmServos::positionBothMirroredDegrees()`, not in the
+`Arms` facade -- facades hold no logic. Legs need no equivalent: every leg pose
+call names all four servos explicitly (`positionAllDegrees(ll, lr, fl, fr)`), so
+there is no both-at-once call whose meaning could be ambiguous.
 
 ## Why `OttoFlow::start()` and not `Otto::start()`
 
@@ -117,9 +141,27 @@ Add a new capability as a module + optional facade:
 3. Add config (pins, enable flag) to `OttoConfig` with kit-accurate defaults,
    and wire initialization into `OttoFlow::start()`.
 4. Ship an example sketch under `examples/` (folder planned -- see ROADMAP.md).
+5. Document it in the wiki -- see below.
 
 A module that follows the naming rules and the guard pattern
 (disabled => silent no-op) will feel native next to the built-ins.
+
+## Documentation is part of the API
+
+The [wiki](https://github.com/ahmeddabak/OttoFlow/wiki) is the manual, and it is
+written with the code rather than after it. The standard:
+
+- Every facade has a **page of its own**, named after the part of the robot it
+  drives -- grouping several parts onto one page hides them. Modules get a section
+  each in the `Modules` reference page, except where a module has no facade
+  (`LightSensor` -> the `Light` page), which then gets the page instead.
+- Every public function appears in **`API-Reference`**. A new page is also added
+  to **`_Sidebar`** and **`Home`**.
+- A public API change -- new function, rename, changed behaviour, new console
+  command -- is not finished until the matching wiki change lands with it.
+
+The wiki is a separate git repository (the GitHub wiki of this project), so this
+is two commits, not one. A feature nobody can find is not a feature.
 
 ## Hardware scope
 
