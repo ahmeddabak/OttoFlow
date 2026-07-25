@@ -29,7 +29,7 @@ namespace LegServos {
   bool isEnabled();
 
   /** Move all four servos to the center rest position (90 deg). */
-  void home();
+  void center();
 
   //-- Locomotion
 

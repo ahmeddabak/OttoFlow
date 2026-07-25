@@ -17,7 +17,9 @@ namespace Legs {
   /** @return true while the leg/foot servos are attached and driven. */
   inline bool isEnabled()  { return LegServos::isEnabled(); }
   /** Return all four leg/foot servos to the center rest position (90 deg). */
-  inline void home()       { LegServos::home(); }
+  inline void center()     { LegServos::center(); }
+  /** Alias for center(): the legs' rest position. */
+  inline void home()       { center(); }
 
   //-- Walking / turning (periodMs: higher = slower, ~600..1400)
 

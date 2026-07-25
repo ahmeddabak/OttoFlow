@@ -39,16 +39,28 @@ void positionBothDegrees(uint8_t angle) {
   positionRightDegrees(angle);
 }
 
-static void waveWith(Servo& servo, uint8_t times) {
-  if (!s_attached) return;
-  for (uint8_t i = 0; i < times; i++) {
-    servo.write(160); delay(300);
-    servo.write(120); delay(300);
-  }
-  servo.write(20);   // back down
+void positionBothMirroredDegrees(uint8_t angle) {
+  if (angle > 180) angle = 180;
+  positionLeftDegrees(angle);
+  positionRightDegrees(180 - angle);
 }
 
-void waveRight(uint8_t times) { waveWith(s_right, times); }
-void waveLeft(uint8_t times)  { waveWith(s_left, times); }
+void center() { positionBothDegrees(90); }
+void up()     { positionBothMirroredDegrees(180); }
+void down()   { positionBothMirroredDegrees(0); }
+
+// Wave angles are written in left-arm terms; the right servo faces the
+// other way, so its angles are mirrored to keep both waves identical.
+static void waveWith(Servo& servo, uint8_t times, bool mirrored) {
+  if (!s_attached) return;
+  for (uint8_t i = 0; i < times; i++) {
+    servo.write(mirrored ?  20 : 160); delay(300);
+    servo.write(mirrored ?  60 : 120); delay(300);
+  }
+  servo.write(mirrored ? 160 : 20);   // back down
+}
+
+void waveRight(uint8_t times) { waveWith(s_right, times, true); }
+void waveLeft(uint8_t times)  { waveWith(s_left, times, false); }
 
 }  // namespace ArmServos

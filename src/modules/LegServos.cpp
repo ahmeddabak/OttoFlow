@@ -27,7 +27,7 @@ bool isEnabled() { return s_enabled; }
 // Every movement goes through this guard.
 #define GUARDED(call) do { if (s_enabled) { drv().call; } } while (0)
 
-void home() { GUARDED(home()); }
+void center() { GUARDED(home()); }
 
 void walk(float steps, int periodMs, int dir)     { GUARDED(walk(steps, periodMs, dir)); }
 void turn(float steps, int periodMs, int dir)     { GUARDED(turn(steps, periodMs, dir)); }

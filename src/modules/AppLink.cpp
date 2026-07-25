@@ -31,7 +31,7 @@ static int nextInt(bool& ok) {
 //-- One cycle of the currently selected movement (app ids 0..20) ---
 static void runCurrentMove() {
   switch (s_moveId) {
-    case 0:  LegServos::home(); break;
+    case 0:  LegServos::center(); break;
     case 1:  LegServos::walk(1, s_periodMs, 1); break;
     case 2:  LegServos::walk(1, s_periodMs, -1); break;
     case 3:  LegServos::turn(1, s_periodMs, 1); break;
@@ -81,7 +81,7 @@ static void handleLine(char* line) {
     case 'S': {                                  // stop
       sendAck();
       s_moveId = 0;
-      LegServos::home();
+      LegServos::center();
       sendFinalAck();
       break;
     }
@@ -96,7 +96,7 @@ static void handleLine(char* line) {
     }
     case 'H': {                                  // gesture <1..13>
       sendAck();
-      LegServos::home();
+      LegServos::center();
       int id = nextInt(ok);
       if (ok && id >= 1 && id <= (int)(sizeof(GESTURES) / sizeof(GESTURES[0]))) {
         LegServos::playGesture(GESTURES[id - 1]);
@@ -106,7 +106,7 @@ static void handleLine(char* line) {
     }
     case 'K': {                                  // sound <1..19>
       sendAck();
-      LegServos::home();
+      LegServos::center();
       int id = nextInt(ok);
       if (ok && id >= 1 && id <= (int)(sizeof(SOUNDS) / sizeof(SOUNDS[0]))) {
         Buzzer::play(SOUNDS[id - 1]);
@@ -116,7 +116,7 @@ static void handleLine(char* line) {
     }
     case 'L': {                                  // matrix <binary pattern>
       sendAck();
-      LegServos::home();
+      LegServos::center();
       char* arg = strtok(nullptr, " ");
       if (arg != nullptr) Matrix::drawPattern(strtoul(arg, nullptr, 2));
       sendFinalAck();
@@ -124,7 +124,7 @@ static void handleLine(char* line) {
     }
     case 'T': {                                  // tone <frequencyHz> <durationMs>
       sendAck();
-      LegServos::home();
+      LegServos::center();
       int frequency = nextInt(ok);
       int duration  = nextInt(ok);
       if (ok) Buzzer::playToneHz(frequency, duration, 1);
@@ -133,7 +133,7 @@ static void handleLine(char* line) {
     }
     case 'C': {                                  // calibrate <yl> <yr> <rl> <rr>
       sendAck();
-      LegServos::home();
+      LegServos::center();
       int yl = nextInt(ok), yr = nextInt(ok), rl = nextInt(ok), rr = nextInt(ok);
       if (ok) {
         LegServos::setTrimsDegrees(yl, yr, rl, rr);
@@ -156,7 +156,7 @@ static void handleLine(char* line) {
     default: {                                   // unknown: behave like stop
       sendAck();
       s_moveId = 0;
-      LegServos::home();
+      LegServos::center();
       sendFinalAck();
       break;
     }

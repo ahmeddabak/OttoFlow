@@ -62,6 +62,7 @@ static void printHelp() {
   s_stream->println(F("  foot l|r <0-180>               one foot servo"));
   s_stream->println(F("  arm l|r <0-180>                one arm servo"));
   s_stream->println(F("  arms on|off                    hold / relax arms"));
+  s_stream->println(F("  arms center|up|down            both arms to a pose"));
   s_stream->println(F("  center                         all leg servos to 90"));
   s_stream->println(F("  pose <ll> <lr> <fl> <fr> [ms]  smooth 4-servo stance"));
   s_stream->println(F("  trim <ll> <lr> <fl> <fr> | trim save"));
@@ -312,6 +313,16 @@ static void handle(char* line) {
     if (state && strcmp_P(state, PSTR("on")) == 0) {
       Arms::hold();
       s_stream->println(Arms::isActive() ? F("arms on") : F("arms not enabled in config"));
+    } else if (state && (strcmp_P(state, PSTR("center")) == 0 ||
+                         strcmp_P(state, PSTR("home")) == 0 ||
+                         strcmp_P(state, PSTR("up")) == 0 ||
+                         strcmp_P(state, PSTR("down")) == 0)) {
+      ArmServos::attach();
+      if (!Arms::isActive()) { s_stream->println(F("arms not enabled in config")); return; }
+      if      (strcmp_P(state, PSTR("up")) == 0)   Arms::up();
+      else if (strcmp_P(state, PSTR("down")) == 0) Arms::down();
+      else                                         Arms::center();
+      s_stream->print(F("arms ")); s_stream->println(state);
     } else {
       Arms::relax();
       s_stream->println(F("arms relaxed"));

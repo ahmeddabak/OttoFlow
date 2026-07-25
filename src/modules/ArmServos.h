@@ -24,8 +24,21 @@ namespace ArmServos {
   void positionRightDegrees(uint8_t angle);
   /** Move both arms to @p angle (0..180). */
   void positionBothDegrees(uint8_t angle);
+  /**
+   * Move both arms to @p angle, mirrored: left gets @p angle, right gets
+   * 180 - @p angle. The two servos face opposite ways, so mirroring is what
+   * makes both arms move in the same physical direction.
+   */
+  void positionBothMirroredDegrees(uint8_t angle);
 
-  /** Blocking wave with the right arm, @p times (demo/greeting motion). */
+  /** Both arms to the center rest position (90 deg). */
+  void center();
+  /** Both arms straight up (left 180, right 0). */
+  void up();
+  /** Both arms straight down at the sides (left 0, right 180). */
+  void down();
+
+  /** Blocking wave with the right arm, @p times (demo/greeting motion). Mirrored to match waveLeft(). */
   void waveRight(uint8_t times = 2);
   /** Blocking wave with the left arm, @p times (demo/greeting motion). */
   void waveLeft(uint8_t times = 2);
