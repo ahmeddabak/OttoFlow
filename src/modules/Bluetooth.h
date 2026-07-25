@@ -17,10 +17,11 @@
 #include <Arduino.h>
 
 namespace Bluetooth {
-  // Called by OttoFlow::start() when enabled; safe to call again.
+  /** Start the Bluetooth serial link. Called by OttoFlow::start() when enabled; safe to call again. */
   bool begin();
+  /** @return true once the Bluetooth link is initialised. */
   bool isReady();
 
-  // The Bluetooth serial stream (valid after begin()).
+  /** @return the Bluetooth serial stream (valid after begin()). */
   Stream& stream();
 }

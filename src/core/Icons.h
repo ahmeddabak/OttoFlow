@@ -7,26 +7,27 @@
 #pragma once
 #include <Arduino.h>
 
+/** Named expressions for the LED matrix (see Mouth::show / Matrix::drawIcon). */
 enum class Icon : uint8_t {
   Heart,
-  Happy,          // open smile
+  Happy,          ///< open smile
   HappyClosed,
   Smile,
   Sad,
   SadOpen,
   SadClosed,
   Angry,
-  Surprised,      // big surprise
+  Surprised,      ///< big surprise
   SmallSurprise,
   Confused,
   TongueOut,
   Vampire1,
   Vampire2,
-  Line,           // neutral straight mouth
+  Line,           ///< neutral straight mouth
   Diagonal,
   Ok,
   X,
-  Question,       // interrogation mark
+  Question,       ///< interrogation mark
   Thunder,
   Culito
 };

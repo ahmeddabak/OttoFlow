@@ -12,12 +12,16 @@
 #include <Arduino.h>
 
 namespace TouchSensor {
-  // Current raw state of the sensor pin (HIGH = touched, in
-  // momentary mode; meaningless as "touched" in toggle mode).
+  /**
+   * @return current raw state of the sensor pin (HIGH = touched in
+   * momentary mode; not meaningful as "touched" in toggle mode).
+   */
   bool isTouched();
 
-  // True exactly once per touch: detects a state CHANGE since the
-  // last call. Works in momentary and toggle mode. Call it every
-  // loop() iteration.
+  /**
+   * @return true exactly once per touch by detecting a state CHANGE
+   * since the last call. Works in momentary and toggle mode; call it
+   * every loop() iteration.
+   */
   bool wasTapped();
 }

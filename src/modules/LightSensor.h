@@ -8,13 +8,14 @@
 #include <Arduino.h>
 
 namespace LightSensor {
-  // One raw ADC sample, 0..1023 (wiring-dependent direction).
+  /** @return one raw ADC sample, 0..1023 (direction depends on wiring). */
   int raw();
 
-  // Brightness as 0 (dark) .. 100 (bright) %.
+  /** @return brightness as 0 (dark) .. 100 (bright) %. */
   uint8_t brightnessPercent();
 
-  // Convenience checks.
+  /** @return true when brightness is below @p thresholdPercent. */
   bool isDarkerThanPercent(uint8_t thresholdPercent);
+  /** @return true when brightness is above @p thresholdPercent. */
   bool isBrighterThanPercent(uint8_t thresholdPercent);
 }

@@ -6,9 +6,10 @@
 #pragma once
 #include <Arduino.h>
 
+/** Named buzzer sound effects (see Voice::play / Buzzer::play). */
 enum class Sound : uint8_t {
-  Hello,          // connection chirp
-  Goodbye,        // disconnection
+  Hello,          ///< connection chirp
+  Goodbye,        ///< disconnection
   ButtonPushed,
   Mode1,
   Mode2,

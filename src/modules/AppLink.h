@@ -22,10 +22,11 @@
 #include <Arduino.h>
 
 namespace AppLink {
-  void begin();                 // listen on the Bluetooth stream
-  void begin(Stream& stream);   // listen on any stream (e.g. Serial)
+  /** Start listening for app commands on the Bluetooth stream. */
+  void begin();
+  /** Start listening for app commands on any @p stream (e.g. Serial). */
+  void begin(Stream& stream);
 
-  // Call every loop() iteration: handles incoming commands and
-  // keeps the current movement running.
+  /** Handle incoming commands and keep the current movement running. Call every loop() iteration. */
   void poll();
 }

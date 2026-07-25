@@ -10,6 +10,8 @@
 class Otto;  // OttoDIYLib driver class (defined in <Otto.h>, included by .cpp files only)
 
 namespace ottoflow_internal {
-  ::Otto&     drv();      // the one OttoDIYLib driver instance
-  OttoConfig& config();   // the active configuration
+  /** @return the one shared OttoDIYLib driver instance. */
+  ::Otto&     drv();
+  /** @return the active configuration passed to OttoFlow::start(). */
+  OttoConfig& config();
 }

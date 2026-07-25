@@ -6,6 +6,7 @@
 #pragma once
 #include <Arduino.h>
 
+/** Named whole-body gestures combining movement, mouth and sound (see Gestures::play). */
 enum class Gesture : uint8_t {
   Happy,
   SuperHappy,

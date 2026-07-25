@@ -11,15 +11,22 @@
 #include <Arduino.h>
 
 namespace ArmServos {
-  void attach();      // called by OttoFlow::start() when arms are enabled
-  void detach();      // relax: stop driving the arm servos
+  /** Attach the arm servos. Called by OttoFlow::start() when arms are enabled. */
+  void attach();
+  /** Detach the arm servos (relax): stop driving them so they go limp. */
+  void detach();
+  /** @return true while the arm servos are attached and driven. */
   bool isAttached();
 
+  /** Move the left arm to @p angle (0..180). */
   void positionLeftDegrees(uint8_t angle);
+  /** Move the right arm to @p angle (0..180). */
   void positionRightDegrees(uint8_t angle);
+  /** Move both arms to @p angle (0..180). */
   void positionBothDegrees(uint8_t angle);
 
-  // Simple blocking wave with one arm (demo/greeting motion).
+  /** Blocking wave with the right arm, @p times (demo/greeting motion). */
   void waveRight(uint8_t times = 2);
+  /** Blocking wave with the left arm, @p times (demo/greeting motion). */
   void waveLeft(uint8_t times = 2);
 }

@@ -1,23 +1,26 @@
-//================================================================
-// OttoFlow - the one include a sketch needs.
-//
-//   #include <OttoFlow.h>
-//
-//   void setup() {
-//     OttoFlow::start();          // classic Otto biped kit
-//     Mouth::show(Icon::Heart);
-//   }
-//
-//   void loop() {
-//     if (Eyes::closerThanCm(15)) Mouth::show(Icon::Surprised);
-//     else                        Mouth::show(Icon::Happy);
-//   }
-//
-// Layers (see DESIGN.md):
-//   Facades  - Mouth, Eyes, Voice, Legs, Arms, Gestures (sugar)
-//   Modules  - Matrix, Ultrasonic, Buzzer, LegServos, ArmServos (full control)
-//   Driver   - OttoDIYLib, reachable via #include <OttoFlowDriver.h>
-//================================================================
+/**
+ * @file OttoFlow.h
+ * @brief The one include a sketch needs - pulls in the whole framework.
+ *
+ * @code
+ *   #include <OttoFlow.h>
+ *
+ *   void setup() {
+ *     OttoFlow::start();          // classic Otto biped kit
+ *     Mouth::show(Icon::Heart);
+ *   }
+ *
+ *   void loop() {
+ *     if (Eyes::closerThanCm(15)) Mouth::show(Icon::Surprised);
+ *     else                        Mouth::show(Icon::Happy);
+ *   }
+ * @endcode
+ *
+ * Layers (see DESIGN.md):
+ *   - Facades - Mouth, Eyes, Voice, Legs, Arms, Gestures (sugar)
+ *   - Modules - Matrix, Ultrasonic, Buzzer, LegServos, ArmServos (full control)
+ *   - Driver  - OttoDIYLib, reachable via #include <OttoFlowDriver.h>
+ */
 #pragma once
 
 #include "core/OttoCore.h"

@@ -9,17 +9,18 @@
 #include "OttoConfig.h"
 
 namespace OttoFlow {
-  // Start the robot with the classic biped kit defaults.
+  /** Start the robot with the classic biped kit defaults. */
   void start();
 
-  // Start with a known kit preset (standard wiring assumed).
+  /** Start with a known kit @p preset (standard wiring assumed). */
   void start(Preset preset);
 
-  // Start with full custom configuration.
+  /** Start with a full custom @p config. */
   void start(const OttoConfig& config);
 
+  /** @return true once start() has run. */
   bool isStarted();
 
-  // Framework version, e.g. "0.1.0"
+  /** @return the framework version string, e.g. "0.1.0". */
   const char* version();
 }

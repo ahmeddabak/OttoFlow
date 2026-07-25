@@ -7,5 +7,6 @@
 #include "../modules/LegServos.h"
 
 namespace Gestures {
+  /** Play a whole-body gesture combining movement, mouth and sound (see the Gesture enum). */
   inline void play(Gesture gesture) { LegServos::playGesture(gesture); }
 }

@@ -15,21 +15,19 @@
 #include "../modules/ArmServos.h"
 
 namespace Motion {
-  // Detach ALL servos (legs, feet, and arms if present).
-  // Every movement call becomes a silent no-op.
+  /** Detach ALL servos (legs, feet, and arms if present); every movement call becomes a no-op. */
   inline void disable() {
     LegServos::disable();
     ArmServos::detach();
   }
 
-  // Re-attach all servos this build has (arms only when enabled
-  // in the configuration).
+  /** Re-attach every servo this build has (arms only when enabled in the configuration). */
   inline void enable() {
     LegServos::enable();
     ArmServos::attach();
   }
 
-  // True when any servo group is active.
+  /** @return true when any servo group (legs or arms) is active. */
   inline bool isEnabled() {
     return LegServos::isEnabled() || ArmServos::isAttached();
   }

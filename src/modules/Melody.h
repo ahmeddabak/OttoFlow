@@ -13,11 +13,14 @@
 #include <Arduino.h>
 
 namespace Melody {
-  // Play a melody: parallel PROGMEM tables of note frequencies (Hz)
-  // and beat lengths. tempoMs is the duration of one beat.
+  /**
+   * Play a melody from parallel PROGMEM tables: @p notesHz (frequencies,
+   * 0 = rest) and @p beats (lengths), @p noteCount entries long.
+   * @p tempoMs is the duration of one beat.
+   */
   void playHz(const uint16_t* notesHz, const uint8_t* beats,
               uint8_t noteCount, uint16_t tempoMs);
 
-  // Built-in tune, matching the official example.
+  /** Play the built-in "Happy Birthday" tune (matches the official example). */
   void playHappyBirthday();
 }

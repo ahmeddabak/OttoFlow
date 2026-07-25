@@ -14,27 +14,40 @@
 #include <Arduino.h>
 
 namespace Mpu6050 {
-  // Called by OttoFlow::start() when enabled; safe to call again.
-  // Returns false when the sensor does not answer on the bus.
+  /**
+   * Initialise the sensor. Called by OttoFlow::start() when enabled;
+   * safe to call again.
+   * @return false when the sensor does not answer on the I2C bus.
+   */
   bool begin();
+  /** @return true when the sensor is responding on the I2C bus. */
   bool isConnected();
 
   //-- Raw motion data
-  // Acceleration in g (1.0 = earth gravity), per axis.
+
+  /** Read acceleration in g (1.0 = earth gravity) into @p x, @p y, @p z. */
   void readAccelerationG(float& x, float& y, float& z);
-  // Rotation rate in degrees per second, per axis.
+  /** Read rotation rate in degrees per second into @p x, @p y, @p z. */
   void readRotationDps(float& x, float& y, float& z);
-  // Die temperature in Celsius (the chip has a thermometer).
+  /** @return die temperature in Celsius (the chip has a thermometer). */
   float temperatureC();
 
   //-- Orientation (computed from gravity; valid when not moving fast)
-  float pitchDegrees();   // nose up/down,  0 = level
-  float rollDegrees();    // lean left/right, 0 = level
+
+  /** @return nose up/down tilt in degrees (0 = level). */
+  float pitchDegrees();
+  /** @return lean left/right tilt in degrees (0 = level). */
+  float rollDegrees();
 
   //-- Convenience checks
+
+  /** @return true when the robot is upright within @p toleranceDegrees of level. */
   bool isLevelWithinDegrees(float toleranceDegrees = 15);
+  /** @return true when the robot is flipped over. */
   bool isUpsideDown();
-  // True when current total acceleration deviates from 1 g by more
-  // than the threshold - a shake, bump, or being picked up.
+  /**
+   * @return true when total acceleration deviates from 1 g by more than
+   * @p thresholdG - a shake, bump, or being picked up.
+   */
   bool isShakenHarderThanG(float thresholdG = 0.6);
 }
