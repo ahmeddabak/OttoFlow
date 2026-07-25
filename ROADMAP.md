@@ -67,18 +67,47 @@ Stored in flash (PROGMEM), so they cost no RAM.
 
 ---
 
+## Arm servo trims
+
+Leg servos have trims; arm servos have none. The arms run on the plain `Servo`
+library, so a horn seated a few degrees off means one arm rests visibly lower
+than the other, and the only fixes today are reseating the horn or offsetting
+every angle by hand in the sketch.
+
+Planned: the same treatment the legs already get --
+
+```cpp
+cfg.arms.leftTrim  = 0;
+cfg.arms.rightTrim = 5;    // applied to every arm move
+```
+
+applied inside `ArmServos::positionLeftDegrees()` / `positionRightDegrees()` so
+that `center()`, `up()`, `down()` and the waves all inherit it, plus an `armtrim`
+console command for the same adjust-and-look loop as `trim`. Whether they share
+the legs' EEPROM block or get their own is the open question.
+
+---
+
 ## Servo calibration wizard
 
 Every physical Otto needs small trim corrections so it stands straight.
 The API for trims exists (`Legs::setTrimsDegrees()` + `saveTrimsToEeprom()`),
-but tuning values still means edit -> flash -> look -> repeat.
-
-Planned: an interactive session in the serial console --
+and the console can set all four at once --
 
 ```
-> trim legleft -3     (servo moves immediately, judge by eye)
+> trim -4 3 0 -2      (left leg, right leg, left foot, right foot)
 > trim save           (stored in EEPROM, loaded on every start)
 ```
+
+-- but you still tune four numbers at a time, holding in your head which one is
+which. Planned: one servo at a time, with guided prompts --
+
+```
+> trim wizard
+left leg: +/- to adjust, enter to accept
+```
+
+Should cover the arms too, once they have trims of their own.
 
 ---
 
@@ -92,8 +121,10 @@ A numbered `examples/` folder, beginner -> advanced:
 4. **HumanoidArms** -- the arms preset and arm moves
 5. **PowerUser** -- custom config, module layer, raw-driver escape hatch
 
-Written once the feature set settles so they never go stale; both the Arduino
-IDE and PlatformIO show them in their example browsers.
+The [wiki's Examples page](https://github.com/ahmeddabak/OttoFlow/wiki/Examples)
+already carries sketches of this kind, ready to paste. What is left is bundling
+them into the library so the Arduino IDE and PlatformIO list them in their example
+browsers -- worth doing once the feature set settles, so they never go stale.
 
 ---
 
