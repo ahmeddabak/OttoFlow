@@ -128,23 +128,6 @@ browsers -- worth doing once the feature set settles, so they never go stale.
 
 ---
 
-## Publish to library registries
-
-Submit to the PlatformIO Registry and the Arduino Library Manager so anyone can
-install OttoFlow by name (`lib_deps = OttoFlow` / IDE library search) instead of
-a git URL. Best done after the API has survived real users without breaking
-changes.
-
----
-
-## ESP32 / ESP8266 support
-
-Support the WiFi-capable Otto variants. OttoDIYLib already compiles for ESP32;
-OttoFlow needs conditional servo/tone backends and a test robot on that board.
-Opens the door to web-based remote control later.
-
----
-
 ## More add-on modules
 
 Most kit extras are already shipped (touch, sound sensor, photoresistor,

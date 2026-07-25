@@ -169,7 +169,7 @@ Arduino Nano (ATmega328), Otto biped/Humanoid kits: 4 leg/foot servos, HC-SR04,
 MAX7219 8x8 matrix, buzzer -- plus the optional kit hardware, each config-enabled
 or passively available: 2 arm servos, touch sensor, sound sensor (microphone),
 photoresistor, Bluetooth serial module (incl. the official app protocol), and
-the MPU-6050 6-axis motion sensor. Other boards (ESP32) are roadmap territory.
+the MPU-6050 6-axis motion sensor. Other boards (ESP32) are out of scope for now.
 
 ## License
 
