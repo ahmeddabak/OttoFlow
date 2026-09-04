@@ -49,21 +49,19 @@ it one, plus a clear indicator on the matrix that the robot is in test mode.
 
 ---
 
-## Custom icons and animations
+## Matrix animations
 
-The matrix currently offers the 31 built-in OttoDIYLib mouth shapes plus single-pixel
-drawing. Planned: define your own 8x8 icons and multi-frame animations in a
-readable way and show them like built-ins:
+Custom 8x8 icons are in (`OTTOFLOW_ICON` + `Mouth::showCustom()`), but every
+frame of a moving picture is still a hand-rolled loop in the sketch. Planned:
+multi-frame animations defined next to the icons and played like built-ins --
 
 ```cpp
-OTTOFLOW_ICON(MyAlien,
-  0b00111100,
-  0b01111110,
-  ...);
-Mouth::showCustom(MyAlien);
+OTTOFLOW_ANIMATION(Blink, Eyes, EyesHalf, EyesClosed, EyesHalf, Eyes);
+Mouth::playAnimation(Blink, 80);   // ms per frame
 ```
 
-Stored in flash (PROGMEM), so they cost no RAM.
+Stored in flash (PROGMEM) like the icons, so they cost no RAM. Non-blocking
+playback rides on the motion engine's `OttoFlow::update()`.
 
 ---
 

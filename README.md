@@ -111,7 +111,7 @@ Voice::mute();      // no sounds
 
 ## API tour
 
-- **`Mouth`** -- `show(Icon::...)`, `showDigit(7)`, `scrollText("HI")`, `setBrightness(8)`, `clear()`
+- **`Mouth`** -- `show(Icon::...)`, `showCustom(MyIcon)`, `showDigit(7)`, `scrollText("HI")`, `setBrightness(8)`, `clear()`
 - **`Eyes`** -- `distanceCm()`, `closerThanCm(15)`, `fartherThanCm(50)`
 - **`Voice`** -- `play(Sound::Happy)`, `playToneHz(440, 200)`, `playHappyBirthday()`, `mute()` / `unmute()`
 - **`Legs`** -- `walkForward(2)`, `turnLeft(3)`, `moonwalkLeft()`, `center()`, `enable()` / `disable()`, trims

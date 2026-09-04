@@ -2,9 +2,18 @@
 #include "../core/Internal.h"
 #include <Otto.h>
 
+using ottoflow_internal::config;
 using ottoflow_internal::drv;
 
 namespace Matrix {
+
+// What drawBitmap() last put on the matrix, in picture coordinates.
+// Every pixel costs a full 16-bit software-SPI transfer through the
+// driver, so redrawing only what changed turns a 64-write frame into a
+// handful of writes for blinks and bars. Any other draw call bypasses
+// the copy and marks it stale, so the next frame is written in full.
+static uint8_t s_shadow[8];
+static bool    s_shadowValid = false;
 
 // Map the framework's Icon enum to OttoDIYLib mouth-table ids.
 static uint8_t mouthIdFor(Icon icon) {
@@ -34,21 +43,67 @@ static uint8_t mouthIdFor(Icon icon) {
   return lineMouth;  // unreachable, keeps the compiler happy
 }
 
-void drawIcon(Icon icon) { drv().putMouth(mouthIdFor(icon)); }
+// Light one pixel given in picture coordinates (x from the left, y from
+// the top), rotated the same way the driver rotates its own mouths and
+// scrolling text, so a custom icon comes out the same way up as the
+// built-in ones whatever config.matrix.orientation says.
+static void plotRotated(uint8_t x, uint8_t y, bool on) {
+  uint8_t v = on ? 1 : 0;
+  switch (config().matrix.orientation) {
+    case 2:  drv().setLed(7 - x, 7 - y, v); break;
+    case 3:  drv().setLed(7 - y, x, v);     break;
+    case 4:  drv().setLed(y, 7 - x, v);     break;
+    default: drv().setLed(x, y, v);         break;
+  }
+}
+
+void drawIcon(Icon icon) {
+  s_shadowValid = false;
+  drv().putMouth(mouthIdFor(icon));
+}
+
+void drawCustomIcon(const CustomIcon& icon) {
+  uint8_t rows[8];
+  memcpy_P(rows, icon.rows, sizeof(rows));
+  drawBitmap(rows);
+}
+
+void drawBitmap(const uint8_t rows[8]) {
+  for (uint8_t y = 0; y < 8; y++) {
+    uint8_t changed = s_shadowValid ? (rows[y] ^ s_shadow[y]) : 0xFF;
+    for (uint8_t x = 0; x < 8; x++) {
+      uint8_t bit = 0x80 >> x;
+      if (changed & bit) plotRotated(x, y, rows[y] & bit);
+    }
+    s_shadow[y] = rows[y];
+  }
+  s_shadowValid = true;
+}
 
 void drawDigit(uint8_t digit) {
-  if (digit <= 9) drv().putMouth(digit);  // mouth ids 0..9 are the digits
+  if (digit > 9) return;
+  s_shadowValid = false;
+  drv().putMouth(digit);  // mouth ids 0..9 are the digits
 }
 
 void drawMouthId(uint8_t mouthId) {
-  if (mouthId < NUMBER_OF_ELEMENTS) drv().putMouth(mouthId);
+  if (mouthId >= NUMBER_OF_ELEMENTS) return;
+  s_shadowValid = false;
+  drv().putMouth(mouthId);
 }
 
-void drawPixel(uint8_t x, uint8_t y, bool on) { drv().setLed(x, y, on ? 1 : 0); }
+void drawPixel(uint8_t x, uint8_t y, bool on) {
+  s_shadowValid = false;
+  drv().setLed(x, y, on ? 1 : 0);
+}
 
-void drawPattern(unsigned long pattern) { drv().putMouth(pattern, false); }
+void drawPattern(unsigned long pattern) {
+  s_shadowValid = false;
+  drv().putMouth(pattern, false);
+}
 
 void scrollText(const char* text, uint8_t scrollSpeedMs) {
+  s_shadowValid = false;
   drv().writeText(text, scrollSpeedMs);
 }
 
@@ -56,6 +111,10 @@ void setBrightness(uint8_t level) {
   drv().matrixIntensity(level > 15 ? 15 : level);
 }
 
-void clear() { drv().clearMouth(); }
+void clear() {
+  drv().clearMouth();
+  memset(s_shadow, 0, sizeof(s_shadow));   // a blank frame is a known frame
+  s_shadowValid = true;
+}
 
 }  // namespace Matrix

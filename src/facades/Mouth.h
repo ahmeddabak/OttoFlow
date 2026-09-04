@@ -9,6 +9,8 @@
 namespace Mouth {
   /** Show an expression on the LED matrix (see the Icon enum). */
   inline void show(Icon icon)                { Matrix::drawIcon(icon); }
+  /** Show an 8x8 icon of your own, defined with OTTOFLOW_ICON (see the Icon reference). */
+  inline void showCustom(const CustomIcon& icon) { Matrix::drawCustomIcon(icon); }
   /** Show a single digit (0..9) on the LED matrix. */
   inline void showDigit(uint8_t digit)       { Matrix::drawDigit(digit); }
   /** Turn every LED off. */

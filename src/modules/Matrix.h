@@ -1,7 +1,8 @@
 //================================================================
 // OttoFlow - modules/Matrix.h
-// The 8x8 MAX7219 LED matrix. Full control: named icons, digits,
-// raw mouth-table ids, single pixels, scrolling text, brightness.
+// The 8x8 MAX7219 LED matrix. Full control: named icons, your own
+// 8x8 icons, digits, raw mouth-table ids, single pixels, scrolling
+// text, brightness.
 //================================================================
 #pragma once
 #include <Arduino.h>
@@ -10,6 +11,18 @@
 namespace Matrix {
   /** Draw a named expression (see the Icon enum). */
   void drawIcon(Icon icon);
+  /**
+   * Draw an 8x8 icon of your own (see OTTOFLOW_ICON in core/Icons.h).
+   * Honours the configured matrix orientation like the built-in icons.
+   */
+  void drawCustomIcon(const CustomIcon& icon);
+  /**
+   * Draw a full 8x8 frame from RAM: @p rows holds eight bytes, top row
+   * first, most significant bit = leftmost pixel. Use it for pictures
+   * you build at runtime (bars, meters); prefer drawCustomIcon() for
+   * fixed art, which then lives in flash.
+   */
+  void drawBitmap(const uint8_t rows[8]);
   /** Draw a single digit, 0..9. */
   void drawDigit(uint8_t digit);
   /** Draw a raw OttoDIYLib mouth by index, 0..30. */
